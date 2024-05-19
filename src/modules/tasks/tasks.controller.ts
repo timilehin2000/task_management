@@ -14,7 +14,9 @@ import { TasksService } from './tasks.service';
 import { Task } from './tasks.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateTaskDto, updateTaskDto } from './dto/task.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Tasks')
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly taskService: TasksService) {}

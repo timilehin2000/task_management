@@ -45,4 +45,4 @@ To run this application, execute:
 npm run start:dev
 ```
 
-You should be able to access this application at `http://127.0.0.1:3000`
+You should be able to access this application at `http://127.0.0.1:3000`. You can also access the API documentation at `http://127.0.0.1:3000` or https://documenter.getpostman.com/view/13110445/2sA3QmDZtb
