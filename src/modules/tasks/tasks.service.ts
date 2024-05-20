@@ -10,7 +10,7 @@ export class TasksService {
     @InjectRepository(Task) private readonly taskRepository: Repository<Task>,
   ) {}
 
-  createTask(task: CreateTaskDto, userId: string): Promise<Task> {
+  createTask(task: CreateTaskDto, userId?: string): Promise<Task> {
     const newTask = this.taskRepository.create({ ...task, userId });
     return this.taskRepository.save(newTask);
   }
@@ -50,7 +50,7 @@ export class TasksService {
   async updateTask(
     id: string,
     data: Partial<Task>,
-    userId: string,
+    userId?: string,
   ): Promise<{ numberOfAffectedRows: number; updatedTask: Task }> {
     await this.taskRepository.update({ id, userId }, data);
     const updatedTask = await this.taskRepository.findOne({

@@ -13,6 +13,7 @@ import { Server, Socket } from 'socket.io';
 import { CreateTaskDto } from './dto/task.dto';
 import { TasksService } from './tasks.service';
 import { Logger, UseGuards } from '@nestjs/common';
+import { Task } from './tasks.entity';
 
 @WebSocketGateway({ cors: true })
 export class TasksGateway
@@ -38,13 +39,15 @@ export class TasksGateway
     this.logger.log(`Client Connected: ${client.id}`);
   }
 
-  //   async handleCreateTask(
-  //     @MessageBody() createTaskDto: CreateTaskDto,
-  //     @ConnectedSocket() client: Socket,
-  //   ) {
-  //     const user = client.handshake.query.user;
-  //     createTaskDto.userId = user.id;
-  //     const task = await this.taskService.createTask(createTaskDto, user.id);
-  //     this.server.emit('taskCreated', task);
-  //   }
+  @SubscribeMessage('createTask')
+  async handleCreateTask(client: Socket, payload: any): Promise<void> {
+    const task = await this.taskService.createTask(payload);
+    this.server.emit('taskCreated', task);
+  }
+
+  @SubscribeMessage('updateTask')
+  async handleUpdateTask(client: Socket, payload: any): Promise<void> {
+    const task = await this.taskService.updateTask(payload.id, payload);
+    this.server.emit('taskUpdated', task);
+  }
 }
